@@ -1,0 +1,107 @@
+select *
+from PROJECT..['Covid death SQL$']
+order by 3,4
+
+For Africa
+
+select *
+from PROJECT..['Covid death SQL$']
+where continent = 'Afria'
+order by 3,4
+
+... for Nigeria 
+select *
+from PROJECT..['Covid death SQL$']
+where location = 'Nigeria'
+order by 3,4
+
+
+select *
+from PROJECT..['Covid vaccination SQL$']
+order by 3,4
+
+..select the data that we will be using.
+
+select location, date, total_cases, new_cases total_deaths, population
+from PROJECT..['Covid death SQL$']
+order by 1,2
+
+... Total cases vs total deaths
+
+select location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as DeathPercentage
+from PROJECT..['Covid death SQL$']
+order by 1,2
+
+Africa (Total cases vs Total deaths)
+
+select location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as DeathPercentage
+from PROJECT..['Covid death SQL$']
+where location = 'Africa'
+order by 1,2
+
+Total cases vs Total Population
+
+select location, date, total_cases, population, (total_cases/population)*100 as DeathPercentage
+from PROJECT..['Covid death SQL$']
+where location = 'Africa'
+order by 1,2
+
+Countries with highest infection rate  compared to population
+
+select location, population, max(total_cases) as highestInfectionCount, max(total_cases/population)*100 as PercentagePopulationInfected
+from PROJECT..['Covid death SQL$']
+group by location, population
+order by PercentagePopulationInfected desc
+
+select location, population, max(total_cases) as highestInfectionCount, max(total_cases/population)*100 as PercentagePopulationInfected
+from PROJECT..['Covid death SQL$']
+where location = 'Africa'
+group by location, population
+order by PercentagePopulationInfected desc
+
+... For Nigeria
+
+select location, population, max(total_cases) as highestInfectionCount, max(total_cases/population)*100 as PercentagePopulationInfected
+from PROJECT..['Covid death SQL$']
+where location = 'Nigeria'
+group by location, population
+order by PercentagePopulationInfected desc
+
+Showing Countries With Highest Deaths Count per Population
+
+select location, max(Total_deaths) as TotalDeathCount
+from PROJECT..['Covid death SQL$']
+group by location
+order by TotalDeathCount desc
+
+Cast/Change as integer 
+
+select location, max(cast(Total_deaths as int)) as TotalDeathCount
+from PROJECT..['Covid death SQL$']
+where continent is not null
+group by location
+order by TotalDeathCount desc
+
+... For continent
+
+select continent, max(cast(Total_deaths as int)) as TotalDeathCount
+from PROJECT..['Covid death SQL$']
+where continent is not null
+group by continent
+order by TotalDeathCount desc
+
+... Continent With the Highest Death Count per population
+
+select continent, max(cast(Total_deaths as int)) as TotalDeathCount
+from PROJECT..['Covid death SQL$']
+where continent is not null
+group by continent
+order by TotalDeathCount desc
+
+... Global Number
+
+select date, SUM(new_cases).., total_deaths, (total_deaths/total_cases)*100 as DeathPercentage
+from PROJECT..['Covid death SQL$']
+where continent is not null
+Group By date
+order by 1,2
